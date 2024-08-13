@@ -7,15 +7,12 @@ export default function StarRating({noOfStars = 5}) {
     const[hover, setHover] = useState(0);
     function handleClick(getCurrentIndex){
         setRating(getCurrentIndex);
-        console.log(getCurrentIndex);
     }
     function handleMouseEnter(getCurrentIndex){
         setHover(getCurrentIndex);
-        console.log(getCurrentIndex);
     }
     function handleMouseLeave(){
-        setHover(rating);
-        console.log("rating: "+rating);
+        setHover(rating);   // or we can also set it 0 while leaving then the (hover || rating) will evalueate and from there the non-zero 'rating' would be choosen
     }
 
   return (
@@ -25,7 +22,7 @@ export default function StarRating({noOfStars = 5}) {
         return (
         <FaStar 
             key={index}
-            className={index <= (hover || rating) ? 'acitve' : 'inactive'}
+            className={index <= (hover || rating) ? 'active' : 'inactive'}  // here actually (hover || rating) not needed as onMouseLeave 'hover' is actually set to 'rating' so it never becomes zero and rating is never used in the scope
             onClick={()=> handleClick(index)}
             onMouseMove={()=> handleMouseEnter(index)}
             onMouseLeave={()=> handleMouseLeave()}
