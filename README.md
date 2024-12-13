@@ -1,8 +1,8 @@
 "npx create-react-app app_name"
 projects might not have node_modules in them
-run "npm i"
+"npm i"
 to install all neccery modules
-then "npm start" to start.
+"npm start"
 
 is depriciated. So use some latest command like
 
