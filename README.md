@@ -1,10 +1,28 @@
-"npx create-react-app app_name"
+Sometimes like with version node 22 or 23 npx and npm does not work dure to limitation in policies.
+As process execution is forbidden in loacal computer. Then go to node directory "C/users/user_name/AppData/Roaming/nvm/v23or v22 etc"
+Then just delete npm.ps1 npx.ps1. The error should go away.
+error is like this.
+
+PS D:\RIKU\CODING\Web_dev\Practice\4.ImageSlider> npx -v    
+npx : File C:\Program Files\nodejs\npx.ps1 cannot be loaded because running scripts is disabled on this system. For more information, see 
+about_Execution_Policies at https:/go.microsoft.com/fwlink/?LinkID=135170.
+At line:1 char:1
++ npx -v
++ ~~~
+    + CategoryInfo          : SecurityError: (:) [], PSSecurityException
+    + FullyQualifiedErrorId : UnauthorizedAccess
+
+
+After successful npm, nvm, npx, node, nvm setup.
+
+
+"npx create-react-app app_name" (depriciated, use vite@latest)
 projects might not have node_modules in them
 "npm i"
 to install all neccery modules
 "npm start"
-
 is depriciated. So use some latest command like
+
 
 "npm create vite@latest"
 
