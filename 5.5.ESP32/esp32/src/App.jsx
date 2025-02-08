@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { database } from '../firebase'
-import { ref, onValue, runTransaction, set } from "firebase/database"
+import { ref, onValue, runTransaction, set, get } from "firebase/database"
 import './App.css'
 
 function App() {
@@ -14,6 +14,21 @@ function App() {
   const decTimeoutRef = useRef(null)
   const password = "com"
   const email = "com"
+
+  // Helper to update database based on delta change
+  const updateGlobal = (delta) => {
+    console.log("updateGlobal called with delta:", delta)
+    runTransaction(ref(database, 'globalCount'), (currentValue) => {
+      return (currentValue || 0) + delta
+    })
+      .then(result => {
+        console.log("Transaction result:", result);
+        if (!result.committed) {
+          console.log("Transaction not committed", result);
+        }
+      })
+      .catch(error => console.log("Transaction error:", error))
+  }
 
   // Check for existing session on mount
   useEffect(() => {
@@ -31,13 +46,23 @@ function App() {
   // Subscribe to global count on mount
   useEffect(() => {
     const countRef = ref(database, 'globalCount')
+    // One-time initialization: if globalCount doesn't exist, write 0.
+    get(countRef)
+      .then(snapshot => {
+        if (!snapshot.exists()) {
+          console.log("Initializing globalCount in Firebase to 0.");
+          set(countRef, 0)
+          setCount(0)
+        } else {
+          setCount(snapshot.val())
+        }
+      })
+      .catch(error => console.log("Error initializing globalCount:", error));
+    
+    // Attach onValue listener
     onValue(countRef, snapshot => {
-      if (snapshot.exists()) {
-        setCount(snapshot.val())
-      } else {
-        // Removed set(countRef, 0) to prevent resetting on each mount
-        setCount(0)
-      }
+      console.log("Global count updated from Firebase:", snapshot.val());
+      setCount(snapshot.val())
     })
   }, [])
 
@@ -76,8 +101,10 @@ function App() {
     if (incTimeoutRef.current) {
       clearTimeout(incTimeoutRef.current)
       incTimeoutRef.current = null
+      // For a quick click, update using onClick already
     }
-    stopIncrement()
+    stopIncrement();
+    // Remove updateGlobal(0) if no additional update is needed
   }
 
   const handleMouseDownDecrement = () => {
@@ -91,8 +118,10 @@ function App() {
     if (decTimeoutRef.current) {
       clearTimeout(decTimeoutRef.current)
       decTimeoutRef.current = null
+      // For a quick click, update using onClick already
     }
-    stopDecrement()
+    stopDecrement();
+    // Remove updateGlobal(0) if no additional update is needed
   }
 
   const handleLogin = () => {
@@ -135,15 +164,7 @@ function App() {
           <h1>VALUE: {count}</h1>
           <div className="card">
             <button 
-              onClick={() => 
-                runTransaction(ref(database, 'globalCount'), c => (c || 0) + 1)
-                  .then(result => {
-                    if (!result.committed) {
-                      console.error("Increase transaction not committed", result);
-                    }
-                  })
-                  .catch(error => console.error("Increase transaction error:", error))
-              }
+              onClick={() => {updateGlobal(1); console.log("Increase")}}
               onMouseDown={handleMouseDownIncrement}
               onMouseUp={handleMouseUpIncrement}
               onMouseLeave={handleMouseUpIncrement}
@@ -151,15 +172,7 @@ function App() {
               Increase
             </button>
             <button 
-              onClick={() => 
-                runTransaction(ref(database, 'globalCount'), c => (c || 0) - 1)
-                  .then(result => {
-                    if (!result.committed) {
-                      console.error("Decrease transaction not committed", result);
-                    }
-                  })
-                  .catch(error => console.error("Decrease transaction error:", error))
-              }
+              onClick={() => {updateGlobal(-1); console.log("Decrease")}}
               onMouseDown={handleMouseDownDecrement}
               onMouseUp={handleMouseUpDecrement}
               onMouseLeave={handleMouseUpDecrement}
