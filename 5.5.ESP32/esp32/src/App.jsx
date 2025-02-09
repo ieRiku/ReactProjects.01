@@ -124,6 +124,19 @@ function App() {
     // Remove updateGlobal(0) if no additional update is needed
   }
 
+  const handleTouchStartIncrement = () => {
+    handleMouseDownIncrement();
+  }
+  const handleTouchEndIncrement = () => {
+    handleMouseUpIncrement();
+  }
+  const handleTouchStartDecrement = () => {
+    handleMouseDownDecrement();
+  }
+  const handleTouchEndDecrement = () => {
+    handleMouseUpDecrement();
+  }
+
   const handleLogin = () => {
     if (inputEmail === email && inputPassword === password) {
       const expiration = Date.now() + 15 * 24 * 60 * 60 * 1000 // 15 days
@@ -168,6 +181,10 @@ function App() {
               onMouseDown={handleMouseDownIncrement}
               onMouseUp={handleMouseUpIncrement}
               onMouseLeave={handleMouseUpIncrement}
+              onTouchStart={handleTouchStartIncrement}
+              onTouchEnd={handleTouchEndIncrement}
+              onTouchCancel={handleTouchEndIncrement}
+              className='increment'
             >
               Increase
             </button>
@@ -176,6 +193,10 @@ function App() {
               onMouseDown={handleMouseDownDecrement}
               onMouseUp={handleMouseUpDecrement}
               onMouseLeave={handleMouseUpDecrement}
+              onTouchStart={handleTouchStartDecrement}
+              onTouchEnd={handleTouchEndDecrement}
+              onTouchCancel={handleTouchEndDecrement}
+              className='decrement'
             >
               Decrease
             </button>

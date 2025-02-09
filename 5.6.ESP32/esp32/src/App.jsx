@@ -56,7 +56,7 @@ function App() {
       <h1>COUNT: {count}</h1>
       <div className="card">
         <button onClick={handleUpClick}>
-          up
+          INCREASE
         </button>
       </div>
     </>
