@@ -174,7 +174,8 @@ function App() {
       ) : (
         <>
           <button className="logout" onClick={handleLogout}>Logout</button>
-          <h1>VALUE: {count}</h1>
+          <div className="App">
+          <h1 className='value'>VALUE: {count}</h1>
           <div className="card">
             <button 
               onClick={() => {updateGlobal(1); console.log("Increase")}}
@@ -200,6 +201,7 @@ function App() {
             >
               Decrease
             </button>
+          </div>
           </div>
         </>
       )}
