@@ -4,12 +4,16 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start:api": "node ./api.js",
+    "dev:frontend": "npm run dev",
+    "dev": "concurrently \"vite\" \"npm run start:api\""
   },
   "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
     "firebase": "^11.3.0",
     "firebase-tools": "^13.30.0",
     "react": "^19.0.0",
@@ -20,6 +24,7 @@
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^8.2.0",
     "eslint": "^9.19.0",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.0.0",
