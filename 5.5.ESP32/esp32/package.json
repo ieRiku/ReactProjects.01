@@ -4,13 +4,21 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start:api": "node ./api.js",
+    "dev:frontend": "npm run dev",
+    "dev": "concurrently \"vite\" \"npm run start:api\""
   },
   "dependencies": {
-    "firebase": "^11.3.0",
+    "concurrency": "^0.1.4",
+    "concurrently": "^9.1.2",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "experss": "^0.0.1-security",
+    "express": "^4.21.2",
+    "firebase": "^11.3.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
