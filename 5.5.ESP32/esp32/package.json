@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "start:api": "node ./api.js",
     "dev:frontend": "npm run dev",
-    "dev": "concurrently \"vite\" \"npm run start:api\""
+    "dev": "concurrently \"vite\" \"API_PORT=3001 npm run start:api\""
   },
   "dependencies": {
     "concurrency": "^0.1.4",
