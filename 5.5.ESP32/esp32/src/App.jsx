@@ -12,6 +12,7 @@ function App() {
   const decIntervalRef = useRef(null)
   const incTimeoutRef = useRef(null)
   const decTimeoutRef = useRef(null)
+  const passwordInputRef = useRef(null) // new ref for password input
   const password = "com"
   const email = "com"
 
@@ -162,12 +163,15 @@ function App() {
             placeholder="Email"
             value={inputEmail}
             onChange={(e) => setInputEmail(e.target.value)}
+            onKeyDown={(e) => { if(e.key === 'Enter' && passwordInputRef.current) passwordInputRef.current.focus() }} // new event handler
           />
           <input 
             type="password" 
             placeholder="Password"
             value={inputPassword}
             onChange={(e) => setInputPassword(e.target.value)}
+            ref={passwordInputRef} // attach ref
+            onKeyDown={(e) => { if(e.key === 'Enter') handleLogin() }} // new submit on enter
           />
           <button onClick={handleLogin}>Login</button>
         </div>
