@@ -30,7 +30,7 @@ function App() {
       .catch(error => console.log("Transaction error:", error))
   }
 
-  // Check for existing session on mount
+  // Check for existing session on mount  // 15 days set now.
   useEffect(() => {
     const session = localStorage.getItem('session')
     if (session) {
@@ -124,13 +124,13 @@ function App() {
     // Remove updateGlobal(0) if no additional update is needed
   }
 
-  const handleTouchStartIncrement = () => {
+  const handleTouchStartIncrement = () => { // basically same as mouse events
     handleMouseDownIncrement();
   }
   const handleTouchEndIncrement = () => {
     handleMouseUpIncrement();
   }
-  const handleTouchStartDecrement = () => {
+  const handleTouchStartDecrement = () => { // basically same as mouse events
     handleMouseDownDecrement();
   }
   const handleTouchEndDecrement = () => {
