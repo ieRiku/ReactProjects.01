@@ -3,6 +3,8 @@ import cors from 'cors';
 import crypto from 'crypto';
 import { database } from './firebase.js';
 import { ref, get, set } from "firebase/database";
+import fs from 'fs';
+import https from 'https';
 
 // Hardcoded password hash for "password"
 const PASSWORD_HASH = '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
@@ -61,5 +63,11 @@ app.get('/', (req, res) => {
   res.send("Welcome to the ESP32 API. Use /globalCount to get or update the count.");
 });
 
-const PORT = process.env.API_PORT || 3001;
-app.listen(PORT, () => console.log(`API server listening on port ${PORT}`));
+const options = {
+  key: fs.readFileSync('./ssl/somezing.me.key'),
+  cert: fs.readFileSync('./ssl/somezing.me.crt')
+};
+
+https.createServer(options, app).listen(3001, () => {
+  console.log('HTTPS API server running on port 3001');
+});

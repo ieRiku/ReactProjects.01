@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: ./esp32
+      dockerfile: dockerfile
+    container_name: esp32-01
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./esp32:/app
+      - ./ssl:/ssl
+    expose:
+      - "3000"
+      - "3001"
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./ssl:/etc/letsencrypt
+    depends_on:
+      - app
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./ssl:/etc/letsencrypt
+    entrypoint: >
+      /bin/sh -c "while true; do certbot renew && sleep 86400; done"
