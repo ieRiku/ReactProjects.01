@@ -64,8 +64,8 @@ app.get('/', (req, res) => {
 });
 
 const options = {
-  key: fs.readFileSync('./ssl/somezing.me.key'),
-  cert: fs.readFileSync('./ssl/somezing.me.crt')
+  key: fs.readFileSync('./ssl/etc/live/somezing.me/privkey.pem'),
+  cert: fs.readFileSync('./ssl/etc/live/somezing.me/fullchain.pem')
 };
 
 https.createServer(options, app).listen(3001, () => {
