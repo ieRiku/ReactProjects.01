@@ -17,3 +17,11 @@ docker-compose up --build -d
 
 sudo apt install certbot python3-certbot-nginx
 sudo certbot --nginx -d somezing.me -d api.somezing.me --email atomikxp@gmail.com
+
+# To check if nginx is working with HOST: WEBSITE
+# Run this in powershell 
+Invoke-WebRequest -Uri http://localhost -Headers @{ "Host" = "api.somezing.me" }
+Invoke-WebRequest -Uri http://localhost -Headers @{ "Host" = "somezing.me" }
+
+# Run in linux 
+curl -H "Host: api.somezing.me" http://localhost
