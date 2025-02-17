@@ -13,8 +13,8 @@ services:
     image: certbot/certbot
     volumes:
       - ./ssl:/ssl
-    command: certonly --webroot -w /var/www/certbot --agree-tos --no-eff-email --email atomikxp@gmail.com -d somezing.me --config-dir /ssl/etc --work-dir /ssl/var --logs-dir /ssl/logs
-    # This will generate the certificate in /ssl/etc/live/somezing.me
+    command: certonly --webroot -w /var/www/certbot --agree-tos --no-eff-email --email atomikxp@gmail.com -d somezing.me -d api.somezing.me --config-dir /ssl/etc --work-dir /ssl/var --logs-dir /ssl/logs
+    # This will generate the certificate in /ssl/etc/live/ for both domains.
   
   certbot:
     image: certbot/certbot

@@ -13,3 +13,7 @@ From the project root, execute:
 docker-compose up --build -d
 
 # ...existing instructions...
+
+
+sudo apt install certbot python3-certbot-nginx
+sudo certbot --nginx -d somezing.me -d api.somezing.me --email atomikxp@gmail.com

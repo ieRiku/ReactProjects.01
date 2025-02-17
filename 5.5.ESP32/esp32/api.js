@@ -60,12 +60,12 @@ app.post('/globalCount', async (req, res) => {
 
 // Default route for "/"
 app.get('/', (req, res) => {
-  res.send("Welcome to the ESP32 API. Use /globalCount to get or update the count.");
+  res.send("Welcome to the ESP32 API. Use https://api.somezing.me/globalCount to get or update the count.");
 });
 
 const options = {
-  key: fs.readFileSync('./ssl/etc/live/somezing.me/privkey.pem'),
-  cert: fs.readFileSync('./ssl/etc/live/somezing.me/fullchain.pem')
+  key: fs.readFileSync('./ssl/somezing.me.key'),
+  cert: fs.readFileSync('./ssl/somezing.me.crt')
 };
 
 https.createServer(options, app).listen(3001, () => {
