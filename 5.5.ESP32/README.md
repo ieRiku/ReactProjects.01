@@ -25,3 +25,9 @@ Invoke-WebRequest -Uri http://localhost -Headers @{ "Host" = "somezing.me" }
 
 # Run in linux 
 curl -H "Host: api.somezing.me" http://localhost
+
+
+# How this website works (progress journey)
+
+
+# Problems i faced during building this project:

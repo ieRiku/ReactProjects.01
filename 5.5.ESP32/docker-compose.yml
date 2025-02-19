@@ -11,10 +11,19 @@ services:
     volumes:
       - ./esp32/ssl:/app/ssl
   nginx:
-    image: nginx:latest
+    image: nginx:stable-alpine
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
       - app
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    command: certonly --webroot --webroot-path=/var/www/certbot -d somezing.me -d www.somezing.me -d api.somezing.me -d www.api.somezing.me --agree-tos --no-eff-email --email atomikxp@gmail.com
+    depends_on:
+      - nginx
