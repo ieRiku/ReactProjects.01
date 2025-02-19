@@ -6,7 +6,7 @@ services:
       context: ./esp32
       dockerfile: dockerfile
     ports:
-      - "3000:3000"    # Vite app
+      - "3000:4173"    # Vite app
       - "3001:3001"    # API server
     volumes:
       - ./esp32/ssl:/app/ssl
