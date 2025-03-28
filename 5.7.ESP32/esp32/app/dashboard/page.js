@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import styles from "../page.module.css";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -37,26 +38,18 @@ export default function Dashboard() {
   };
 
   return (
-    <div style={{ position: "relative", minHeight: "100vh" }}>
+    <div className={styles.dashboardContainer}>
       <button
-        style={{
-          position: "absolute",
-          top: "20px",
-          right: "20px",
-        }}
+        className={styles.logoutButton}
         onClick={handleLogout}
+        style={{ position: "absolute", top: "20px", right: "20px" }}
       >
         Logout
       </button>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        <button onClick={handleToggle}>{toggle ? "ON" : "OFF"}</button>
+      <div style={{display:"flex", justifyContent:"center", alignItems:"center", height:"100vh"}}>
+        <button className={styles.toggleButton} onClick={handleToggle}>
+          {toggle ? "ON" : "OFF"}
+        </button>
       </div>
     </div>
   );

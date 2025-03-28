@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -22,8 +21,8 @@ export default function Home() {
   };
 
   return (
-    <div style={{display: "flex", justifyContent:"center", alignItems:"center", height:"100vh"}}>
-      <form onSubmit={handleLogin}>
+    <div className={styles.loginContainer}>
+      <form className={styles.loginForm} onSubmit={handleLogin}>
         <div>
           <input 
             type="email" 
@@ -40,7 +39,7 @@ export default function Home() {
             onChange={e => setPassword(e.target.value)} 
           />
         </div>
-        <button type="submit">Login</button>
+        <button className={styles.loginButton} type="submit">Login</button>
       </form>
     </div>
   );
