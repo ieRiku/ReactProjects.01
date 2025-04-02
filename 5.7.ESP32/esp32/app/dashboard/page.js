@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import styles from "../page.module.css";
 import { initializeApp, getApps } from "firebase/app";
@@ -22,9 +22,9 @@ export default function Dashboard() {
   const router = useRouter();
   const [toggle, setToggle] = useState(false);
 
-  // Initialize Firebase app and Database instance with useMemo for stability
+  // Initialize Firebase app and Database instance
   const app = initializeApp(firebaseConfig);
-  const db = useMemo(() => getDatabase(app), [app]);
+  const db = getDatabase(app);
 
   // Check authentication on mount
   useEffect(() => {
@@ -44,7 +44,14 @@ export default function Dashboard() {
   useEffect(() => {
     const pumpRef = ref(db, "pumpState");
     const unsubscribe = onValue(pumpRef, (snapshot) => {
-      setToggle(snapshot.val());
+      const value = snapshot.val();
+      if (value === null) {
+        // If pumpState is absent, create it with default value false
+        set(ref(db, "pumpState"), false);
+        setToggle(false);
+      } else {
+        setToggle(value);
+      }
     });
     return () => {
       unsubscribe && unsubscribe();
