@@ -115,7 +115,7 @@ export default function Dashboard() {
         Logout
       </button>
       <div className="centeredContainer">
-        <div className="darkBox">
+        <div className={`darkBox ${toggle ? "expandedBox" : ""}`}>
           <button 
             className={`${styles.toggleButton} toggleSlide ${toggle ? "slideUp" : ""}`} 
             onClick={handleToggle}

@@ -50,14 +50,20 @@ a {
 
 .darkBox {
   background-color: #444;
-  padding: 40px; /* increased padding */
+  padding: 30px; /* increased padding */
   border-radius: 8px;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
   transition: all 1s ease;
-  min-width: 40vw;   /* changed min-width to viewport width */
-  min-height: 30vh;  /* changed min-height to viewport height */
+  min-width: 20vw;   /* base size */
+  min-height: 20vh;
+}
+
+/* New class for expanded size */
+.darkBox.expandedBox {
+  min-width: 20vw;
+  min-height: 25vh;
 }
 
 .toggleSlide {
@@ -69,7 +75,7 @@ a {
 }
 
 .fadeText {
-  margin-top: 20px;
+  margin-top: 30px;
   transition: opacity 1s ease;
 }
 
