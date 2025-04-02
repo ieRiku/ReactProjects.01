@@ -18,13 +18,18 @@ const firebaseConfig = {
   measurementId: "G-2QVE65LETS"
 };
 
+// Initialize Firebase outside component to prevent multiple initializations
+let app;
+if (!getApps().length) {
+  app = initializeApp(firebaseConfig);
+} else {
+  app = getApps()[0];
+}
+const db = getDatabase(app);
+
 export default function Dashboard() {
   const router = useRouter();
   const [toggle, setToggle] = useState(false);
-
-  // Initialize Firebase app and Database instance
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
 
   // Check authentication on mount
   useEffect(() => {
@@ -47,21 +52,25 @@ export default function Dashboard() {
       const value = snapshot.val();
       if (value === null) {
         // If pumpState is absent, create it with default value false
-        set(ref(db, "pumpState"), false);
+        set(ref(db, "pumpState"), false)
+          .catch(error => console.error("Error setting initial pumpState:", error));
         setToggle(false);
       } else {
         setToggle(value);
       }
+    }, (error) => {
+      console.error("Database read error:", error);
     });
+    
     return () => {
       unsubscribe && unsubscribe();
     };
-  }, [db]);
+  }, []);
 
   const handleToggle = () => {
     const newState = !toggle;
     set(ref(db, "pumpState"), newState)
-      .then(() => setToggle(newState))
+      .then(() => console.log("Pump state updated successfully"))
       .catch(error => console.error("Error updating pumpState:", error));
   };
 
