@@ -30,6 +30,7 @@ const db = getDatabase(app);
 export default function Dashboard() {
   const router = useRouter();
   const [toggle, setToggle] = useState(false);
+  const [onTime, setOnTime] = useState(0);
 
   // Check authentication on mount
   useEffect(() => {
@@ -67,6 +68,31 @@ export default function Dashboard() {
     };
   }, []);
 
+  // New useEffect to track how long pump is on
+  useEffect(() => {
+    let timer;
+    if (toggle) {
+      timer = setInterval(() => {
+        setOnTime(prev => prev + 1);
+      }, 1000);
+    } else {
+      setOnTime(0);
+    }
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [toggle]);
+
+  const formatTime = (seconds) => {
+    if (seconds < 60) {
+      return seconds.toString().padStart(2, "0") + " sec";
+    } else {
+      const mins = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      return mins.toString().padStart(2, "0") + ":" + secs.toString().padStart(2, "0") + " sec";
+    }
+  };
+
   const handleToggle = () => {
     const newState = !toggle;
     set(ref(db, "pumpState"), newState)
@@ -88,10 +114,18 @@ export default function Dashboard() {
       >
         Logout
       </button>
-      <div style={{display:"flex", justifyContent:"center", alignItems:"center", height:"100vh"}}>
-        <button className={styles.toggleButton} onClick={handleToggle}>
-          {toggle ? "ON" : "OFF"}
-        </button>
+      <div className="centeredContainer">
+        <div className="darkBox">
+          <button 
+            className={`${styles.toggleButton} toggleSlide ${toggle ? "slideUp" : ""}`} 
+            onClick={handleToggle}
+          >
+            {toggle ? "ON" : "OFF"}
+          </button>
+          <p className={`fadeText ${toggle ? "visible" : "invisible"}`}>
+            {toggle ? `Pump is on for: ${formatTime(onTime)}` : ""}
+          </p>
+        </div>
       </div>
     </div>
   );

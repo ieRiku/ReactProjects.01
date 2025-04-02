@@ -40,3 +40,43 @@ a {
     color-scheme: dark;
   }
 }
+
+.centeredContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.darkBox {
+  background-color: #444;
+  padding: 40px; /* increased padding */
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 1s ease;
+  min-width: 40vw;   /* changed min-width to viewport width */
+  min-height: 30vh;  /* changed min-height to viewport height */
+}
+
+.toggleSlide {
+  transition: transform 1s ease;
+}
+
+.slideUp {
+  transform: translateY(-10px);
+}
+
+.fadeText {
+  margin-top: 20px;
+  transition: opacity 1s ease;
+}
+
+.visible {
+  opacity: 1;
+}
+
+.invisible {
+  opacity: 0;
+}
