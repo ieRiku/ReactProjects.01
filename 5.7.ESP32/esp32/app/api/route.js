@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import { initializeApp, getApps } from "firebase/app";
 import { getDatabase, ref, get, set } from "firebase/database";
 
@@ -17,12 +18,13 @@ if (!getApps().length) {
 }
 const db = getDatabase();
 
-const SECURITY_KEY = "abcd";
+const SECURITY_KEY = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8";    // must be changed before deployment.
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
-  const key = searchParams.get("key");
-  if (key !== SECURITY_KEY) {
+  const providedKey = searchParams.get("key") || "";
+  const hashedKey = crypto.createHash('sha256').update(providedKey).digest('hex');
+  if (hashedKey !== SECURITY_KEY) {
     return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
   }
   try {
@@ -39,7 +41,8 @@ export async function GET(request) {
 export async function POST(request) {
   try {
     const { key, pumpState } = await request.json();
-    if (key !== SECURITY_KEY) {
+    const hashedKey = crypto.createHash('sha256').update(key || "").digest('hex');
+    if (hashedKey !== SECURITY_KEY) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
     }
     const pumpRef = ref(db, "pumpState");
