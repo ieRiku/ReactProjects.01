@@ -34,3 +34,15 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+
+
+CHANGE THESE THINGS: 
+
+1. change the website link in the main.ino so that esp32 can access it.
+2. change the temporary wifi access and password
+
+3. Change the default password for login
+
+4. Change the default password for api verification . Change it into a new hash.
