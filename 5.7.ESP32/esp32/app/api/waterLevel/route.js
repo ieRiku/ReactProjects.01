@@ -18,7 +18,7 @@ if (!getApps().length) {
 }
 const db = getDatabase();
 
-const SECURITY_KEY = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8";
+const SECURITY_KEY = "c4be4d014d5ce57aaa53d40896b4cb36744359e3c39cc2ee477dd95024766899";
 
 export async function POST(request) {
   try {

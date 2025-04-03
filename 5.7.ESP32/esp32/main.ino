@@ -9,12 +9,11 @@
 
 const char* ssid     = "riku_guest";
 const char* password = "12345678@";
-const char* pumpStateApiUrl = "https://esp32-01-mriganka-patras-projects-83632c76.vercel.app/api/pumpState";
-const char* waterLevelApiUrl = "https://esp32-01-mriganka-patras-projects-83632c76.vercel.app/api/waterLevel";
+const char* apiBaseUrl = "https://esp32-01-mriganka-patras-projects-83632c76.vercel.app/api"; // update with your server address
 
 // Function to GET pumpState from the API
 int getValue() {
-  String url = String(pumpStateApiUrl) + "?key=password";
+  String url = String(apiBaseUrl) + "?key=password";
   WiFiClientSecure client;
   client.setInsecure();
   HTTPClient http;
@@ -52,7 +51,7 @@ void setPumpValue(bool state) {
   WiFiClientSecure client;
   client.setInsecure();
   HTTPClient http;
-  http.begin(client, pumpStateApiUrl);
+  http.begin(client, apiBaseUrl);
   http.addHeader("Content-Type", "application/json");
   
   StaticJsonDocument<200> doc;
@@ -63,7 +62,7 @@ void setPumpValue(bool state) {
   
   int httpCode = http.POST(body);
   if(httpCode <= 0) {
-    Serial.print("POST pumpState error: ");
+    Serial.print("POST error: ");
     Serial.println(http.errorToString(httpCode).c_str());
   }
   http.end();
@@ -73,7 +72,7 @@ void setWaterLevel(int level) {
     WiFiClientSecure client;
     client.setInsecure();
     HTTPClient http;
-    String url = String(waterLevelApiUrl);  // changed to dedicated waterLevel endpoint
+    String url = String(apiBaseUrl) + "/waterLevel";  // changed to dedicated waterLevel endpoint
     http.begin(client, url);
     http.addHeader("Content-Type", "application/json");
     

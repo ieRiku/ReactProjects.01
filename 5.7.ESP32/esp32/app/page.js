@@ -11,7 +11,7 @@ export default function Home() {
   const handleLogin = (e) => {
     e.preventDefault();
     // static verification
-    if(email === "email@com" && password === "pass") {
+    if(email === "goai@gmail.com" && password === "patra") {
       const expiry = Date.now() + 15 * 24 * 60 * 60 * 1000; // 15 days
       localStorage.setItem("auth", JSON.stringify({ token: "dummy-token", expiry }));
       router.push("/dashboard");
