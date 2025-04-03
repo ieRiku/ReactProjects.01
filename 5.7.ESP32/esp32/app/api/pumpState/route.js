@@ -18,7 +18,7 @@ if (!getApps().length) {
 }
 const db = getDatabase();
 
-const SECURITY_KEY = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8";    // must be changed before deployment.
+const SECURITY_KEY = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8";
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);

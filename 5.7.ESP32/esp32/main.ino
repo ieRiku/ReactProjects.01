@@ -9,11 +9,12 @@
 
 const char* ssid     = "riku_guest";
 const char* password = "12345678@";
-const char* apiBaseUrl = "https://esp32-01-mriganka-patras-projects-83632c76.vercel.app/api"; // update with your server address
+const char* pumpStateApiUrl = "https://esp32-01-mriganka-patras-projects-83632c76.vercel.app/api/pumpState";
+const char* waterLevelApiUrl = "https://esp32-01-mriganka-patras-projects-83632c76.vercel.app/api/waterLevel";
 
 // Function to GET pumpState from the API
 int getValue() {
-  String url = String(apiBaseUrl) + "?key=password";
+  String url = String(pumpStateApiUrl) + "?key=password";
   WiFiClientSecure client;
   client.setInsecure();
   HTTPClient http;
@@ -45,13 +46,13 @@ int getValue() {
 
 // Function to POST toggled pumpState to the API and return new value.
 // It reads current pumpState, toggles it, then posts the new value.
-void setValue(bool state) {
+void setPumpValue(bool state) {
   bool newState = state;
   
   WiFiClientSecure client;
   client.setInsecure();
   HTTPClient http;
-  http.begin(client, apiBaseUrl);
+  http.begin(client, pumpStateApiUrl);
   http.addHeader("Content-Type", "application/json");
   
   StaticJsonDocument<200> doc;
@@ -62,10 +63,35 @@ void setValue(bool state) {
   
   int httpCode = http.POST(body);
   if(httpCode <= 0) {
-    Serial.print("POST error: ");
+    Serial.print("POST pumpState error: ");
     Serial.println(http.errorToString(httpCode).c_str());
   }
   http.end();
+}
+
+void setWaterLevel(int level) {
+    WiFiClientSecure client;
+    client.setInsecure();
+    HTTPClient http;
+    String url = String(waterLevelApiUrl);  // changed to dedicated waterLevel endpoint
+    http.begin(client, url);
+    http.addHeader("Content-Type", "application/json");
+    
+    StaticJsonDocument<200> doc;
+    doc["key"] = "password";
+    doc["waterLevel"] = level;
+    String body;
+    serializeJson(doc, body);
+    
+    int httpCode = http.POST(body);
+    if(httpCode <= 0) {
+        Serial.print("POST waterLevel error: ");
+        Serial.println(http.errorToString(httpCode).c_str());
+    } else {
+        Serial.print("POST waterLevel returned: ");
+        Serial.println(httpCode);
+    }
+    http.end();
 }
 
 void setup() {
@@ -82,16 +108,5 @@ void setup() {
 }
 
 void loop() {
-  // Call getValue(), set LED on/off based on the pump state.
-  int pumpVal = getValue();
-  digitalWrite(LED_BUILTIN, pumpVal ? HIGH : LOW);
-  delay(1000); // wait 1 second
-  
-  // Call setValue() to toggle pump state at the API.
-  setValue(false); // toggle to true
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(1000); // wait 1 second
-  setValue(true); // toggle to false
-  delay(1000); // wait 1 second
-  Serial.println("Loop");
+  setWaterLevel(analogRead(34)); // Read water level from pin 34 (update if using a different pin)
 }
